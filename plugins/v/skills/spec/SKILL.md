@@ -84,7 +84,7 @@ Run each. Fix what fails.
 
 A lookup surface. Someone scans it for one fact and leaves.
 
-Anything serving a different purpose belongs elsewhere: argument and persuasion in a proposal, atmosphere and example-as-story in prose, reasoning in an analysis document. If the user wants the reasoning, they will ask for `/vforge:idea`.
+Anything serving a different purpose belongs elsewhere: argument and persuasion in a proposal, atmosphere and example-as-story in prose, reasoning in an analysis document. If the user wants the reasoning, they will ask for `/v:idea`.
 
 If a fact genuinely needs justification, it is two lines: the fact, and a `→` line.
 
@@ -104,14 +104,14 @@ Write it to a file when the user asks, or when the spec is a revision of an exis
 
 **Wrong:**
 
-> **Silver, applied.** Worn on the body, silver resists workings directed at the wearer — curses, hostile seals and bindings take poorly. Silver ornament is protective equipment, and its status meaning derives from that function.
+> **Retry policy, applied.** When a request fails, the client retries up to three times with exponential backoff — network errors and 5xx responses trigger a retry, while 4xx responses do not. The schedule exists to avoid overwhelming a recovering service.
 
 **Right:**
 
-> **Silver**
-> - Resists workings.
-> - Workings in contact with it come apart.
-> - Seals discharge on contact.
-> - Spreading damage stops at a silver boundary.
-> - → Worn silver blocks workings aimed at the wearer.
-> - ⚠ Conflicts with the binding rules. Slave-seals are workings. Unresolved.
+> **Retry policy**
+> - Retries: up to 3.
+> - Backoff: exponential.
+> - Triggers: network errors, 5xx responses.
+> - Excluded: 4xx responses.
+> - → Backoff prevents overwhelming a recovering service.
+> - ⚠ Jitter unspecified. Sources disagree on whether it is applied.

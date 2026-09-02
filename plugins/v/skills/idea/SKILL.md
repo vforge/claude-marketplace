@@ -182,7 +182,7 @@ When the analysis runs long, or the user asks for a record, write it to a timest
 5. Head the body with a metadata block:
 
 ```markdown
-> [!info] AI-generated analysis via `/vforge:idea`. For review only.
+> [!info] AI-generated analysis via `/v:idea`. For review only.
 >
 > **Idea posed:** "[exact text of $ARGUMENTS]"
 >
