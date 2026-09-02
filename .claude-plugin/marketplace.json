@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "vforge",
+  "description": "Bartosz V. Bentkowski's Claude Code plugins.",
+  "owner": {
+    "name": "Bartosz V. Bentkowski",
+    "url": "https://github.com/vforge"
+  },
+  "plugins": [
+    {
+      "name": "v",
+      "source": "./plugins/v",
+      "description": "Personal Claude Code toolkit: redundancy measurement, generated-text auditing, point-form specs, and both-sides idea analysis."
+    }
+  ]
+}
