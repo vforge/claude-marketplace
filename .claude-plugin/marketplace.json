@@ -10,7 +10,12 @@
     {
       "name": "v",
       "source": "./plugins/v",
-      "description": "Personal Claude Code toolkit: redundancy measurement, generated-text auditing, point-form specs, and both-sides idea analysis."
+      "description": "Personal Claude Code toolkit: redundancy measurement, generated-text auditing, point-form specs, both-sides idea analysis, and git/writing workflow helpers."
+    },
+    {
+      "name": "atlas",
+      "source": "./plugins/atlas",
+      "description": "Personal knowledge-base tooling for the Atlas vault: save artifacts, recall prior work, and wire a checkout's ai/_misc symlinks."
     }
   ]
 }

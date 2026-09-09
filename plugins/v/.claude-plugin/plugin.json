@@ -1,13 +1,13 @@
 {
   "name": "v",
   "displayName": "v",
-  "version": "0.1.0",
-  "description": "Personal Claude Code toolkit: redundancy measurement, generated-text auditing, point-form specs, and both-sides idea analysis.",
+  "version": "0.2.0",
+  "description": "Personal Claude Code toolkit: redundancy measurement, generated-text auditing, point-form specs, both-sides idea analysis, and git/writing workflow helpers.",
   "author": {
     "name": "Bartosz V. Bentkowski",
     "url": "https://github.com/vforge"
   },
   "repository": "https://github.com/vforge/claude-marketplace",
   "license": "MIT",
-  "keywords": ["writing", "editing", "redundancy", "analysis", "spec", "skills"]
+  "keywords": ["writing", "editing", "redundancy", "analysis", "spec", "git", "skills"]
 }
