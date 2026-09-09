@@ -1,0 +1,13 @@
+{
+  "name": "atlas",
+  "displayName": "atlas",
+  "version": "0.1.0",
+  "description": "Personal knowledge-base tooling for the Atlas vault: save artifacts, recall prior work, and wire a checkout's .atlas symlinks.",
+  "author": {
+    "name": "Bartosz V. Bentkowski",
+    "url": "https://github.com/vforge"
+  },
+  "repository": "https://github.com/vforge/claude-marketplace",
+  "license": "MIT",
+  "keywords": ["knowledge-base", "notes", "skills"]
+}
