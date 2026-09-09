@@ -83,6 +83,14 @@ Copies a skill from another repo or plugin pack into `~/.claude/skills/` verbati
 
 Task-stack push: write a handoff for the main task, isolate the tangent in a worktree if it's code, do the tangent, then resume or abandon back to the main task. Requires `atlas@vforge` installed alongside `v@vforge` — the handoff is written via `atlas`'s `note` skill.
 
+### `/v:archive` — retire a file without deleting it
+
+Moves a file into the project's archive directory (`.archive`, `.archived`, or `zz_archive` — whichever exists), preserving its path relative to the project root. Errors out, naming what to create, if none of the three exist — never creates one itself.
+
+```
+/v:archive docs/old-plan.md
+```
+
 ## `atlas` — Atlas knowledge-base tooling
 
 Personal-infrastructure skills for a knowledge vault (`Atlas`) and its `.atlas`/`.specstory` symlink convention. Set `ATLAS_VAULT_ROOT` to the parent directory containing `Atlas/` and `specstory/`. These are tied to that vault's location and layout, not general-purpose.
@@ -119,7 +127,8 @@ plugins/v/
     ├── idea/SKILL.md
     ├── flatten-and-rebase/SKILL.md
     ├── borrow-skill/SKILL.md
-    └── sidequest/SKILL.md
+    ├── sidequest/SKILL.md
+    └── archive/SKILL.md
 plugins/atlas/
 ├── .claude-plugin/plugin.json
 └── skills/
