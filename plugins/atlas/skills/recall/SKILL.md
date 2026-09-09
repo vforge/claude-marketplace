@@ -10,6 +10,10 @@ Find prior work in **Atlas** (`$ATLAS_VAULT_ROOT/Atlas`) instead of grepping bli
 
 The vault has ~950 notes across layers with different reliability. Search order matters more than search cleverness.
 
+## Before you search
+
+Check `$ATLAS_VAULT_ROOT` is set and non-empty — unset, it silently turns `$ATLAS_VAULT_ROOT/Atlas` into `/Atlas`, a path that doesn't exist. If it's empty, stop and tell the user to set it (see the `atlas` plugin's `setup-here` skill) rather than reporting "nothing found" against a broken path.
+
 ## Search order
 
 **1. `knowledge/` — distilled, start here.** Compiled pages carrying current best understanding above a `---` divider and append-only provenance below it. If the answer is here it's already synthesised and cites its sources. (Empty until Phase 4 of the unification plan; skip if so.)

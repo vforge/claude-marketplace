@@ -21,6 +21,10 @@ work/<ticket-or-slug>/YYYY-MM-DD-<artifact-slug>.md
 - **Inside a checkout with the symlink wired up** (see `setup-here`): `.atlas/<ticket>/…` — identical in every repo. Prefer this; committed code comments use these paths.
 - **Anywhere else:** the absolute path (`$ATLAS_VAULT_ROOT/Atlas`). `Atlas` is in `permissions.additionalDirectories`, so no prompt.
 
+## 0. Verify the vault is reachable
+
+Check `$ATLAS_VAULT_ROOT` is set and non-empty before anything else — unset, it silently turns `$ATLAS_VAULT_ROOT/Atlas` into `/Atlas`, a path that doesn't exist. If it's empty, stop and tell the user to set it (see the `atlas` plugin's `setup-here` skill) rather than writing anywhere.
+
 ## 1. Work out the destination
 
 - **Ticket** — from `$ARGUMENTS` if given, else from the current branch (`git branch --show-current`; branches carry the lowercase Jira key), else from the conversation. Lowercase in the path, uppercase in frontmatter. No ticket → a short kebab-case slug describing the task.
