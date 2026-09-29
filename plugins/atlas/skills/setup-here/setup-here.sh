@@ -54,6 +54,6 @@ link_to .specstory "$SPECSTORY/$remote"
 
 # The symlinks must be gitignored (global ~/.gitignore-global has .atlas and .specstory).
 for link in .atlas .specstory; do
-  git -C "$repo" check-ignore -q "$link" \
+  git check-ignore -q "$link" \
     || echo "WARNING: $link is NOT gitignored in this checkout — add it to .git/info/exclude" >&2
 done

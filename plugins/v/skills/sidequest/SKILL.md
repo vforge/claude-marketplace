@@ -1,6 +1,6 @@
 ---
 name: sidequest
-description: Pause the current task to do unrelated work, then resume exactly where you left off. Requires the atlas plugin (uses its note skill for the handoff).
+description: Pause the current task to do unrelated work, then resume exactly where you left off. Writes the handoff to Atlas if configured, otherwise to the session scratchpad.
 disable-model-invocation: true
 argument-hint: "[start <tangent> | resume | abandon]"
 ---
@@ -11,11 +11,14 @@ The tangent's own mechanics (splitting a branch, fixing a flaky test, filing a t
 
 ## Start
 
-1. **Write the handoff** via the `atlas` plugin's `note` skill (this skill requires `atlas@vforge` installed alongside `v@vforge`): an artifact at `ai/_misc/<ticket-or-slug>/YYYY-MM-DD-sidequest-handoff.md`, `status: open`. Capture, in the artifact:
+1. **Write the handoff** — `YYYY-MM-DD-sidequest-handoff.md`, `status: open` — to the first location that applies:
+   - **Atlas configured** (`atlas@vforge` installed and `$ATLAS_VAULT_ROOT` set): via the `atlas` plugin's `note` skill, at `.atlas/<ticket-or-slug>/`. `note`'s ticket-or-slug rule applies unchanged — no ticket, use a kebab-slug of the main task.
+   - **Otherwise:** the session's scratchpad directory (named in the system prompt). It's session-scoped, so say so — a handoff there won't survive into a new session.
+
+   Capture, in the handoff:
    - the main task: what it is, what's done, what's left
    - current git state: branch, HEAD sha, dirty files
    - the tangent: what it is, why it's happening now, its own done-criterion
-   - `note`'s existing ticket-or-slug rule applies unchanged — no ticket, use a kebab-slug of the main task.
 2. **Isolate if the tangent is code-shaped** (it'll touch files, run commands, or need its own branch): `EnterWorktree`. Invoking this skill is the explicit "work in a worktree" instruction its own guardrail requires — don't ask the user to say the word again. Default base ref (`fresh`, off the default branch) is correct for the stated PR-extraction case; only reach for `head` if the tangent must branch from the current dirty work itself.
 3. **State the tangent's done-criterion out loud** before starting — checkable, not vague ("PR opened and CI green", not "extraction looks done").
 4. Do the tangent, using whichever domain skill fits.

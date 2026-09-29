@@ -81,7 +81,7 @@ Copies a skill from another repo or plugin pack into `~/.claude/skills/` verbati
 
 ### `/v:sidequest` — pause/resume for unrelated work
 
-Task-stack push: write a handoff for the main task, isolate the tangent in a worktree if it's code, do the tangent, then resume or abandon back to the main task. Requires `atlas@vforge` installed alongside `v@vforge` — the handoff is written via `atlas`'s `note` skill.
+Task-stack push: write a handoff for the main task, isolate the tangent in a worktree if it's code, do the tangent, then resume or abandon back to the main task. The handoff goes to Atlas via `atlas`'s `note` skill when `atlas@vforge` is installed and configured, otherwise to the session scratchpad.
 
 ### `/v:archive` — retire a file without deleting it
 

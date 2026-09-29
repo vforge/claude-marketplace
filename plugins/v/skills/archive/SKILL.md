@@ -18,7 +18,7 @@ Check for `.archive`, `.archived`, `zz_archive` at the root, in that order. The 
 
 ## 2. Resolve the move
 
-- Path relative to the project root, not the current directory — resolve `$ARGUMENTS` against the root even if invoked from a subdirectory.
+- Resolve `$ARGUMENTS` against the current directory, then take its path relative to the project root — `old.md` given from inside `docs/` is `docs/old.md`.
 - Destination: `<archive dir>/<that relative path>`. `foo/bar/baz.md` becomes `<archive dir>/foo/bar/baz.md`.
 - Already inside the archive directory: nothing to do, say so.
 - Destination already exists: stop and ask — don't silently overwrite an existing archived file.
@@ -26,10 +26,14 @@ Check for `.archive`, `.archived`, `zz_archive` at the root, in that order. The 
 
 ## 3. Move it
 
-`mkdir -p` the destination's parent, then `git mv` inside a git repo (the move is a rename, not a delete-and-add — history follows the file) or plain `mv` otherwise.
+`mkdir -p` the destination's parent, then pick the move:
+
+- **Source tracked** (`git ls-files --error-unmatch <src>` succeeds) **and destination not ignored** (`git check-ignore -q <dest>` fails): `git mv` — the move is a rename, not a delete-and-add, so history follows the file.
+- **Source tracked, destination ignored:** `git rm --cached <src>` then `mv`. A plain `git mv` here would force-track the file inside the ignored archive directory.
+- **Source untracked, or not a git repo:** plain `mv` — `git mv` refuses untracked files.
 
 Done when the source path is gone and the destination holds the file with its content unchanged — verify both.
 
 ## 4. Report
 
-State the source and destination paths, and whether the move was staged as a `git mv` rename or a plain filesystem move.
+State the source and destination paths, and which move was used: `git mv` rename, `git rm --cached` + `mv` (file now untracked), or plain `mv`.

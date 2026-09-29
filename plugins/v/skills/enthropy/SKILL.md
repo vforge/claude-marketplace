@@ -10,6 +10,7 @@ description: Measure redundancy in a file, directory, or project. Mode 1 (defaul
 Inspect the user's args for these flags:
 - `--semantic` → run mode 2 only (skip mode 1)
 - `--all` → run both mode 1 and mode 2
+- `--show-distinct` → in mode 2, list DISTINCT pairs like OVERLAPPING ones instead of collapsing them to a count
 - everything else (or no flags) → run mode 1 only
 
 The remaining non-flag token is the path; default to `.` if absent.
@@ -44,7 +45,7 @@ The script ignores `.git`, `node_modules`, `.obsidian`, `zz_archive`, and other 
   - **(c) boilerplate / waste** — frontmatter, headers, empty scaffolding repeated everywhere
   - **(d) actual redundancy** — same point made multiple times in the same conceptual section, nothing meaningful added by the repeat
 - Categories (b) and (d) are what the user cares about. Highlight those first; mention (a)/(c) only briefly.
-- If many results look like noise (boilerplate, frontmatter), suggest re-running with `--min-passage 20` or higher. If results are too sparse, suggest `--shingle-size 4 --min-passage 6`.
+- If results look noisy or sparse, suggest a re-run from **When to suggest re-runs** below.
 
 ### Tuning flags
 
@@ -69,8 +70,12 @@ Two stages: a deterministic Python filter produces candidate pairs, then a Haiku
 ### Stage A — extract candidates
 
 ```bash
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/enthropy/semantic_candidates.py" <path> --output /tmp/enthropy-candidates.json
+cand="$(mktemp)"
+python3 "${CLAUDE_PLUGIN_ROOT}/skills/enthropy/semantic_candidates.py" <path> --output "$cand"
+echo "$cand"
 ```
+
+Use the printed path in stage B — a fixed `/tmp` name would collide between concurrent runs.
 
 This splits all text files into paragraphs (30–500 tokens each), computes word-set Jaccard on content words (Polish + English stop-list applied, document-frequency capped), and writes the top-K pairs above a Jaccard threshold to JSON.
 
@@ -101,7 +106,7 @@ If candidates exist, spawn one Agent call:
 
 > You are reviewing pairs of text passages to identify SEMANTIC DUPLICATION — places where two passages convey the same fact or proposition, even if phrased differently.
 >
-> Read the candidate pairs from `/tmp/enthropy-candidates.json` (the `candidates` array). For each pair, classify as:
+> Read the candidate pairs from `<candidates path>` (the `candidates` array). For each pair, classify as:
 >
 > - **REDUNDANT** — Both passages convey the same fact(s). Neither adds meaningful information the other lacks. Cutting one would lose nothing.
 > - **OVERLAPPING** — They share a core point but each adds something distinct. Cutting one would lose some information.
@@ -148,7 +153,7 @@ Analyzed N candidate pairs (Jaccard ≥ X). M REDUNDANT · M OVERLAPPING · M DI
 
 ### DISTINCT — filtered as false positives (M)
 
-_Suppressed; use --show-distinct to inspect._
+_Suppressed; re-run with --show-distinct to inspect._
 ```
 
 REDUNDANT and OVERLAPPING are the actionable buckets. DISTINCT means the Jaccard pre-filter caught vocabulary overlap but the judge ruled the passages actually make different points — collapse that section to a count by default.

@@ -15,7 +15,7 @@
     {
       "name": "atlas",
       "source": "./plugins/atlas",
-      "description": "Personal knowledge-base tooling for the Atlas vault: save artifacts, recall prior work, and wire a checkout's ai/_misc symlinks."
+      "description": "Personal knowledge-base tooling for the Atlas vault: save artifacts, recall prior work, and wire a checkout's .atlas symlinks."
     }
   ]
 }
