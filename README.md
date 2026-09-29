@@ -91,6 +91,10 @@ Moves a file into the project's archive directory (`.archive`, `.archived`, or `
 /v:archive docs/old-plan.md
 ```
 
+### `/v:wtf` — re-explain the last message simply
+
+Manual-only. Restates Claude's previous message in plain Simplified Technical English (short sentences, active voice, no jargon or metaphors), using the repo's `CONTEXT.md` vocabulary when one exists.
+
 ## `atlas` — Atlas knowledge-base tooling
 
 Personal-infrastructure skills for a knowledge vault (`Atlas`) and its `.atlas`/`.specstory` symlink convention. Set `ATLAS_VAULT_ROOT` to the parent directory containing `Atlas/` and `specstory/`. These are tied to that vault's location and layout, not general-purpose.
@@ -111,7 +115,7 @@ Points a checkout's `.atlas` and `.specstory` at the shared vault and specstory 
 
 `unslop`, `spec`, and `idea` were extracted from a large worldbuilding vault, where they were tuned against real generated documents over months. The failure classes in `unslop` are all things that actually shipped and survived multiple review passes. Domain-specific examples have been replaced with neutral ones; the structure is unchanged.
 
-The rest were ported from a personal global `~/.claude/skills/` directory — some work-connected variants of these already live in a separate employer-internal marketplace; what's here is the private-use set. Skills borrowed verbatim from third parties (Cursor's `pstack` pack, other public skill repos) were left out — they carry their own provenance notes and aren't this repo's to redistribute. `unslop-prose` is the one exception: it's a genuine derivative (Cursor's `pstack unslop` plus patterns from `blader/humanizer` and Wikipedia's "Signs of AI writing"), attributed in its own Provenance section rather than left out.
+The rest were ported from a personal global `~/.claude/skills/` directory — some work-connected variants of these already live in a separate employer-internal marketplace; what's here is the private-use set. Skills borrowed verbatim from third parties (Cursor's `pstack` pack, other public skill repos) were left out — they carry their own provenance notes and aren't this repo's to redistribute. Two exceptions are genuine derivatives, attributed in their own Provenance sections rather than left out: `unslop-prose` (Cursor's `pstack unslop` plus patterns from `blader/humanizer` and Wikipedia's "Signs of AI writing") and `wtf` (Cursor's `pstack bro` combined with Matt Pocock's `wait-what`).
 
 ## Layout
 
@@ -128,7 +132,8 @@ plugins/v/
     ├── flatten-and-rebase/SKILL.md
     ├── borrow-skill/SKILL.md
     ├── sidequest/SKILL.md
-    └── archive/SKILL.md
+    ├── archive/SKILL.md
+    └── wtf/SKILL.md
 plugins/atlas/
 ├── .claude-plugin/plugin.json
 └── skills/
