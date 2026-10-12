@@ -83,6 +83,16 @@ Copies a skill from another repo or plugin pack into `~/.claude/skills/` verbati
 
 Task-stack push: write a handoff for the main task, isolate the tangent in a worktree if it's code, do the tangent, then resume or abandon back to the main task. The handoff goes to Atlas via `atlas`'s `note` skill when `atlas@vforge` is installed and configured, otherwise to the session scratchpad.
 
+### `/v:handoff` — carry a task into a fresh session
+
+Writes a handoff file — goal, what was done, what Claude would do next, decisions, dead ends, traps, open questions — after re-checking each claim against the repo and tagging it `[verified]` or `[recalled]`. Defaults to `.claude/handoffs/`, or takes a path. `resume <path>` reads it in a new session, re-checks it, and reports drift before continuing.
+
+```
+/v:handoff
+/v:handoff notes/auth-refactor.md
+/v:handoff resume .claude/handoffs/2026-10-12-1430-auth-refactor.md
+```
+
 ### `/v:archive` — retire a file without deleting it
 
 Moves a file into the project's archive directory (`.archive`, `.archived`, or `zz_archive` — whichever exists), preserving its path relative to the project root. Errors out, naming what to create, if none of the three exist — never creates one itself.
@@ -132,6 +142,7 @@ plugins/v/
     ├── flatten-and-rebase/SKILL.md
     ├── borrow-skill/SKILL.md
     ├── sidequest/SKILL.md
+    ├── handoff/SKILL.md
     ├── archive/SKILL.md
     └── wtf/SKILL.md
 plugins/atlas/
