@@ -1,7 +1,7 @@
 {
   "name": "atlas",
   "displayName": "atlas",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Personal knowledge-base tooling for the Atlas vault: save artifacts, recall prior work, and wire a checkout's .atlas symlinks.",
   "author": {
     "name": "Bartosz V. Bentkowski",

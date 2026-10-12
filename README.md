@@ -117,6 +117,10 @@ Writes a plan, spec, review, or research note into the vault with correct naming
 
 Searches the vault in a deliberate order (distilled knowledge, then ticket artifacts, then curated notes, then inbox/log), filtering out superseded revisions.
 
+### `/atlas:handoff` — `v:handoff` stored in Atlas
+
+Runs `v:handoff` with a destination under `work/<ticket-or-slug>/`, adds `note`'s frontmatter, and supersedes the previous open handoff for the ticket. `resume` with no path finds the newest open one from the current branch. Requires `v@vforge`.
+
 ### `/atlas:setup-here` — wire a checkout's .atlas/.specstory symlinks
 
 Points a checkout's `.atlas` and `.specstory` at the shared vault and specstory store, refusing to clobber a real (non-symlink) directory in the way.
@@ -149,6 +153,7 @@ plugins/atlas/
 ├── .claude-plugin/plugin.json
 └── skills/
     ├── note/SKILL.md
+    ├── handoff/SKILL.md
     ├── recall/SKILL.md
     └── setup-here/{SKILL.md,setup-here.sh}
 ```
