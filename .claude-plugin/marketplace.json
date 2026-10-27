@@ -10,7 +10,7 @@
     {
       "name": "v",
       "source": "./plugins/v",
-      "description": "Personal Claude Code toolkit: redundancy measurement, generated-text auditing, point-form specs, both-sides idea analysis, git/writing workflow helpers, and a scrollable side-pane file diff (/v:diff)."
+      "description": "Personal Claude Code toolkit: redundancy measurement, generated-text auditing, point-form specs, both-sides idea analysis, git/writing workflow helpers, and a scrollable side-pane file diff (/v:compare)."
     },
     {
       "name": "atlas",

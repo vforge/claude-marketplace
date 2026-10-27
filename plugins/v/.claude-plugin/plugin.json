@@ -1,8 +1,8 @@
 {
   "name": "v",
   "displayName": "v",
-  "version": "0.6.1",
-  "description": "Personal Claude Code toolkit: redundancy measurement, generated-text auditing, point-form specs, both-sides idea analysis, git/writing workflow helpers, and a scrollable side-pane file diff (/v:diff).",
+  "version": "0.6.2",
+  "description": "Personal Claude Code toolkit: redundancy measurement, generated-text auditing, point-form specs, both-sides idea analysis, git/writing workflow helpers, and a scrollable side-pane file diff (/v:compare).",
   "author": {
     "name": "Bartosz V. Bentkowski",
     "url": "https://github.com/vforge"
