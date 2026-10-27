@@ -105,6 +105,15 @@ Moves a file into the project's archive directory (`.archive`, `.archived`, or `
 
 Manual-only. Restates Claude's previous message in plain Simplified Technical English (short sentences, active voice, no jargon or metaphors), using the repo's `CONTEXT.md` vocabulary when one exists.
 
+### `/v:diff` — scrollable side-pane file diff
+
+Diffs two files in a scrollable pane beside the chat: additions green, deletions red, hunk headers cyan, with a `+N −N` summary. With one file, pairs it with its timestamped sibling (`name_YYYYMMDD-HHMMSS.ext`, the variants `unslop` and Atlas revisions write) — a stamped file against its predecessor, a base file against the newest variant. `-f` shows the whole file instead of 4 lines of context. Implemented as a plugin hook module (`hooks/register.tsx`), so it needs a Claude Code build with plugin hook-module support.
+
+```
+/v:diff old.md new.md
+/v:diff -f docs/plan_20261012-143000.md
+```
+
 ## `atlas` — Atlas knowledge-base tooling
 
 Personal-infrastructure skills for a knowledge vault (`Atlas`) and its `.atlas`/`.specstory` symlink convention. Set `ATLAS_VAULT_ROOT` to the parent directory containing `Atlas/` and `specstory/`. These are tied to that vault's location and layout, not general-purpose.
@@ -137,6 +146,8 @@ The rest were ported from a personal global `~/.claude/skills/` directory — so
 .claude-plugin/marketplace.json
 plugins/v/
 ├── .claude-plugin/plugin.json
+├── hooks/{hooks.json,register.tsx}
+├── types/index.d.ts
 └── skills/
     ├── enthropy/{SKILL.md,measure.py,semantic_candidates.py}
     ├── unslop/SKILL.md
