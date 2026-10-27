@@ -37,13 +37,13 @@ const classify = (line: string): DiffRow => {
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
-      name: 'v:diff',
+      name: 'diff',
       description: 'Diff two files in a scrollable pane: /v:diff [-f] OLD [NEW]',
     })
     return next(e)
   })
 
-  on('command.run', { command: 'v:diff' }, async ($, e) => {
+  on('command.run', { command: 'diff' }, async ($, e) => {
     let full = false
     const files: string[] = []
     for (const t of tokens(e.args)) {
