@@ -6,19 +6,11 @@ import type { DiffRow, DiffView } from '../types'
 const PANE = 'v-diff'
 const view = atom(
   { plugin: 'v', key: 'diffView' } as const,
-  { title: 'Diff', rows: [], note: 'Run /v-compare OLD NEW' } as DiffView,
+  { title: 'Diff', rows: [], note: 'Ask Claude to compare two files' } as DiffView,
   { shape: 'view-1' },
 )
 
 const STAMP = /^(.*)_(\d{8}-\d{6})(\.[^./]+)?$/
-
-const tokens = (args: string): string[] => {
-  const out: string[] = []
-  const re = /"([^"]*)"|'([^']*)'|(\S+)/g
-  let m: RegExpExecArray | null
-  while ((m = re.exec(args))) out.push(m[1] ?? m[2] ?? m[3])
-  return out
-}
 
 const split = (path: string) => {
   const i = path.lastIndexOf('/')
@@ -36,20 +28,27 @@ const classify = (line: string): DiffRow => {
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
-    await $.command.register({
-      name: 'v-compare',
-      description: 'Diff two files in a scrollable pane: /v-compare [-f] OLD [NEW]',
+    await $.tool.register({
+      name: 'visual-diff',
+      description:
+        'Open a scrollable side pane showing the diff of two files. Pass old and new, or only old to compare it with its timestamped sibling (name_YYYYMMDD-HHMMSS.ext). Set full to show whole files instead of 4 lines of context.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          old: { type: 'string', description: 'Path of the older file, or the single file to pair with its sibling' },
+          new: { type: 'string', description: 'Path of the newer file' },
+          full: { type: 'boolean', description: 'Show whole files' },
+        },
+        required: ['old'],
+      },
     })
     return next(e)
   })
 
-  on('command.run', { command: 'v-compare' }, async ($, e) => {
-    let full = false
-    const files: string[] = []
-    for (const t of tokens(e.args)) {
-      if (t === '-f') full = true
-      else files.push(t)
-    }
+  on('tool.call', { tool: 'mcp__v__visual-diff' }, async ($, e) => {
+    const input = e as { old?: string; new?: string; full?: boolean }
+    const full = input.full === true
+    const files = [input.old, input.new].filter((f): f is string => typeof f === 'string' && f !== '')
 
     // One file: pair it with its neighbour among the timestamped siblings.
     if (files.length === 1) {
@@ -71,16 +70,16 @@ export const register: Register = on => {
       const pair = m
         ? [chain[Math.max(at - 1, 0)], name]
         : [name, chain[chain.length - 1]]
-      if (pair[0] === pair[1]) return { text: `No other version of ${name} found.` }
+      if (pair[0] === pair[1]) return { result: `No other version of ${name} found.` }
       files.splice(0, 1, `${dir}/${pair[0]}`, `${dir}/${pair[1]}`)
     }
-    if (files.length !== 2) return { text: 'Usage: /v-compare [-f] OLD NEW  (or one file: its timestamped neighbour)' }
+    if (files.length !== 2) return { result: 'Pass old and new, or one file to compare against its timestamped neighbour.' }
 
     const [a, b] = files
     const run = await $.process.run([
       'git', 'diff', '--no-index', '--no-color', `-U${full ? 99999 : 4}`, '--', a, b,
     ])
-    if (run.exitCode > 1) return { text: `git diff failed: ${run.stderr.trim()}` }
+    if (run.exitCode > 1) return { result: `git diff failed: ${run.stderr.trim()}` }
 
     const lines = run.stdout.split('\n')
     if (lines[lines.length - 1] === '') lines.pop()
@@ -95,7 +94,7 @@ export const register: Register = on => {
     }
     await update($, view, () => next)
     await $.ui.open({ id: PANE, title: 'Diff' })
-    return { text: `Diff pane opened: ${next.title}` }
+    return { result: `Diff pane opened: ${next.title}` }
   })
 
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
