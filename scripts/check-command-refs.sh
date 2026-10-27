@@ -14,7 +14,7 @@ fail=0
 staged_md=$(git diff --cached --name-only --diff-filter=ACM -- 'README.md' 'plugins/*/skills/**/*.md')
 
 for f in $staged_md; do
-  refs=$(git show ":$f" | grep -oE '/[A-Za-z0-9_-]+:[A-Za-z0-9_-]+' | sed -E 's#^/([^:]+):.*#\1#' | sort -u || true)
+  refs=$(git show ":$f" | grep -oE '(^|[^A-Za-z0-9_./:-])/[A-Za-z0-9_-]+:[A-Za-z0-9_-]+' | sed -E 's#^[^/]*/([^:]+):.*#\1#' | sort -u || true)
   for prefix in $refs; do
     if ! printf '%s\n' "$valid_prefixes" | grep -qx "$prefix"; then
       echo "check-command-refs: $f references '/$prefix:...' — no plugin named '$prefix' exists (valid: $(printf '%s' "$valid_prefixes" | tr '\n' ' '))" >&2
