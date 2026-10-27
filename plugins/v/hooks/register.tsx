@@ -6,7 +6,7 @@ import type { DiffRow, DiffView } from '../types'
 const PANE = 'v-diff'
 const view = atom(
   { plugin: 'v', key: 'diffView' } as const,
-  { title: 'Diff', rows: [], note: 'Run /v:compare OLD NEW' } as DiffView,
+  { title: 'Diff', rows: [], note: 'Run /v-compare OLD NEW' } as DiffView,
   { shape: 'view-1' },
 )
 
@@ -37,13 +37,13 @@ const classify = (line: string): DiffRow => {
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
-      name: 'v:compare',
-      description: 'Diff two files in a scrollable pane: /v:compare [-f] OLD [NEW]',
+      name: 'v-compare',
+      description: 'Diff two files in a scrollable pane: /v-compare [-f] OLD [NEW]',
     })
     return next(e)
   })
 
-  on('command.run', { command: 'v:compare' }, async ($, e) => {
+  on('command.run', { command: 'v-compare' }, async ($, e) => {
     let full = false
     const files: string[] = []
     for (const t of tokens(e.args)) {
@@ -74,7 +74,7 @@ export const register: Register = on => {
       if (pair[0] === pair[1]) return { text: `No other version of ${name} found.` }
       files.splice(0, 1, `${dir}/${pair[0]}`, `${dir}/${pair[1]}`)
     }
-    if (files.length !== 2) return { text: 'Usage: /v:compare [-f] OLD NEW  (or one file: its timestamped neighbour)' }
+    if (files.length !== 2) return { text: 'Usage: /v-compare [-f] OLD NEW  (or one file: its timestamped neighbour)' }
 
     const [a, b] = files
     const run = await $.process.run([
